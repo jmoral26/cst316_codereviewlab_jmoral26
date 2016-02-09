@@ -1,9 +1,24 @@
+/*
+  File:	Account.java
+  Author:	Julian Morales
+  Date:	2/7/2016
+  
+  Description: This class is responsible for managing all accounts
+*/
+
+/**
+  Class:	Account.java
+  
+  Description: This class is responsible for managing all the accounts
+*/
+
+
 package banking.primitive.core;
 
 public abstract class Account implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
-    protected enum State {
+    private enum State {
         OPEN, CLOSED, OVERDRAWN
     };
 
@@ -24,9 +39,11 @@ public abstract class Account implements java.io.Serializable {
     /**
      * @return name of the Account
      */
+    
     public final String getName() {
         return name;
     }
+    
 
     /**
      * @return balance in the Account
@@ -43,6 +60,14 @@ public abstract class Account implements java.io.Serializable {
      * @return true if the deposit was successful, false if not due to amount or
      *         invalid state
      */
+    /**
+    Method: deposit()
+    Inputs: float amount
+    Returns: boolean
+
+    Description: This method is for depositing money into an account.
+  */
+
     public abstract boolean deposit(float amount);
 
     /**
@@ -54,6 +79,14 @@ public abstract class Account implements java.io.Serializable {
      * @return true if the deposit was successful, false if not due to amount or
      *         invalid state
      */
+    /**
+    Method: withdraw()
+    Inputs: float amount
+    Returns: boolean
+
+    Description: Method for withdrawing money from an account.
+  */
+
     public abstract boolean withdraw(float amount);
 
     /**
@@ -68,6 +101,14 @@ public abstract class Account implements java.io.Serializable {
     protected final void setState(State s) {
         state = s;
     }
+
+    /**
+    Method: toString()
+    Inputs: none
+    Returns: String
+
+    Description: This method is used to convert the information into a readable printable state.
+  */
 
     public String toString() {
         return "Account " + name + " has $" + balance + "and is " + getState()

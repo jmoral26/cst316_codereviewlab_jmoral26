@@ -1,3 +1,16 @@
+/*
+  File:	AccountServer.java
+  Author:	Julian Morales
+  Date:	2/7/2016
+  
+  Description:This class manages the status and gives access to accounts
+*/
+/**
+  Class:	AccountServer.java
+  
+  Description: This class manages the status and gives access to accounts
+*/
+
 package banking.primitive.core;
 
 import java.io.IOException;

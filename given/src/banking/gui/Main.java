@@ -1,3 +1,17 @@
+/*
+  File:	Main.java
+  Author:	Julian Morales
+  Date:	2/7/2016
+  
+  Description: The main class runs the program
+*/
+
+/**
+  Class:	Main.java
+  
+  Description: The main class runs the program
+*/
+
 package banking.gui;
 
 import javax.swing.JFrame;

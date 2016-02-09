@@ -1,3 +1,17 @@
+/*
+  File:	ServerSolution.java
+  Author:	Julian Morales
+  Date:	2/7/2016
+  
+  Description: The ServerSolution is class is used to manage accounts.
+*/
+
+
+/**
+  Class:	ServerSolution.java
+  
+  Description: This account checks for errors when manipulating files.
+*/
 package banking.primitive.core;
 
 import java.util.ArrayList;
@@ -10,10 +24,17 @@ import banking.primitive.core.Account.State;
 
 class ServerSolution implements AccountServer {
 
-	static String fileName = "accounts.ser";
+	private static String fileName = "accounts.ser";
 
-	Map<String,Account> accountMap = null;
+	private Map<String,Account> accountMap = null;
 
+    /**
+    Method: ServerSolution()
+    Inputs:  none
+    Returns: none
+
+    Description: A method for starting up the ServerSolution
+  */
 	public ServerSolution() {
 		accountMap = new HashMap<String,Account>();
 		File file = new File(fileName);
@@ -27,55 +48,88 @@ class ServerSolution implements AccountServer {
 				int size = sizeI.intValue();
 				for (int i=0; i < size; i++) {
 					Account acc = (Account) in.readObject();
-					if (acc != null)
+					if (acc != null){
 						accountMap.put(acc.getName(), acc);
+					}
 				}
 			}
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
-		} finally {
+		} 
+		finally {
 			if (in != null) {
 				try {
 					in.close();
-				} catch (Throwable t) {
+				} 
+				catch (Throwable t) {
 					t.printStackTrace();
 				}
 			}
 		}
 	}
-	
+	 /**
+    Method: newAccountFactory
+    Inputs: String type, String name, float balance
+    Returns: boolean
+
+    Description: A method for creating a new account factory
+  */
 	private boolean newAccountFactory(String type, String name, float balance)
 		throws IllegalArgumentException {
 		
-		if (accountMap.get(name) != null) return false;
+		if (accountMap.get(name) != null){
+			return false;
+		}
 		
 		Account acc;
 		if ("Checking".equals(type)) {
 			acc = new Checking(name, balance);
 
-		} else if ("Savings".equals(type)) {
+		} 
+		else if ("Savings".equals(type)) {
 			acc = new Savings(name, balance);
 
-		} else {
+		} 
+		else {
 			throw new IllegalArgumentException("Bad account type:" + type);
 		}
 		try {
 			accountMap.put(acc.getName(), acc);
-		} catch (Exception exc) {
+		} 
+		catch (Exception exc) {
 			return false;
 		}
 		return true;
 	}
+	 /**
+    Method: newAccount
+    Inputs: String type, String name, float balance
+    Returns: boolean
 
+    Description: A method for creating a new account
+  */
 	public boolean newAccount(String type, String name, float balance) 
 		throws IllegalArgumentException {
 		
-		if (balance < 0.0f) throw new IllegalArgumentException("New account may not be started with a negative balance");
-		
+		if (balance < 0.0f){
+			throw new IllegalArgumentException("New account may not be started with a negative balance");
+		}
+		List<Account> accounts = getAllAccounts();
+		for(int i = 0; i < accounts.size(); i++)
+		{
+			if(accounts.get(i).getName() == name){return false;}
+		}
 		return newAccountFactory(type, name, balance);
 	}
-	
+	 /**
+    Method: closeAccount
+    Inputs: String name
+    Returns: boolean
+
+    Description: A method for closing an account
+  */
 	public boolean closeAccount(String name) {
 		Account acc = accountMap.get(name);
 		if (acc == null) {
@@ -103,7 +157,13 @@ class ServerSolution implements AccountServer {
 		}
 		return result;
 	}
-	
+	 /**
+    Method: saveAccounts
+    Inputs: none
+    Returns: none
+
+    Description: A method for saving accounts it checks for possible errors.
+  */
 	public void saveAccounts() throws IOException {
 		ObjectOutputStream out = null; 
 		try {
@@ -113,14 +173,17 @@ class ServerSolution implements AccountServer {
 			for (int i=0; i < accountMap.size(); i++) {
 				out.writeObject(accountMap.get(i));
 			}
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 			throw new IOException("Could not write file:" + fileName);
-		} finally {
+		} 
+		finally {
 			if (out != null) {
 				try {
 					out.close();
-				} catch (Throwable t) {
+				} 
+				catch (Throwable t) {
 					t.printStackTrace();
 				}
 			}
